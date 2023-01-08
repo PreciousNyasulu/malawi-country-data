@@ -42,76 +42,48 @@ func GetDistrictByRegion(client *gin.Context) {
 	region := client.Param("region")
 
 	if strings.ToLower(region) == "northern" {
-		rows, err := db.Query("SELECT id, name, code, region FROM districts WHERE region='Northern'")
-		if err != nil {
-			panic(err.Error())
-		}
-		defer rows.Close()
-		district = nil
-		for rows.Next() {
-			var getdistrict structs.District
-			err = rows.Scan(&getdistrict.Id, &getdistrict.Name, &getdistrict.Code, &getdistrict.Region)
-			if err != nil {
-				panic(err.Error())
-			}
-
-			district = append(district, getdistrict)
-		}
-
-		err = rows.Err()
-		if err != nil {
-			panic(err.Error())
-		}
+		
+		district = districtsappend("Northern")
 		client.IndentedJSON(http.StatusOK, district)
+
+
 	} else if strings.ToLower(region) == "central" {
-		rows, err := db.Query("SELECT id, name, code, region FROM districts WHERE region='Central'")
-		if err != nil {
-			panic(err.Error())
-		}
-		defer rows.Close()
-
-		district = nil
-
-		for rows.Next() {
-			var getdistrict structs.District
-			err = rows.Scan(&getdistrict.Id, &getdistrict.Name, &getdistrict.Code, &getdistrict.Region)
-			if err != nil {
-				panic(err.Error())
-			}
-
-			district = append(district, getdistrict)
-		}
-
-		err = rows.Err()
-		if err != nil {
-			panic(err.Error())
-		}
+		
+		district = districtsappend("Central")
 		client.IndentedJSON(http.StatusOK, district)
+
 	} else if strings.ToLower(region) == "southern" {
-		rows, err := db.Query("SELECT id, name, code, region FROM districts WHERE region='Southern'")
-		if err != nil {
-			panic(err.Error())
-		}
-		defer rows.Close()
-		district = nil
-		for rows.Next() {
-			var getdistrict structs.District
-			err = rows.Scan(&getdistrict.Id, &getdistrict.Name, &getdistrict.Code, &getdistrict.Region)
-			if err != nil {
-				panic(err.Error())
-			}
 
-			district = append(district, getdistrict)
-
-			err = rows.Err()
-			if err != nil {
-				panic(err.Error())
-			}
-		}
+		district = districtsappend("Southern")
 		client.IndentedJSON(http.StatusOK, district)
+
 	} else {
 		client.IndentedJSON(http.StatusBadRequest, gin.H{"Message": "Unknown route."})
 		return
 	}
+}
 
+func districtsappend(region string) []structs.District {
+	rows, err := db.Query("SELECT id, name, code, region FROM districts WHERE region='"+region+"'")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+	district = nil
+	for rows.Next() {
+		var getdistrict structs.District
+		err = rows.Scan(&getdistrict.Id, &getdistrict.Name, &getdistrict.Code, &getdistrict.Region)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		district = append(district, getdistrict)
+
+		err = rows.Err()
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
+	return district
 }
