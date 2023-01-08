@@ -15,11 +15,13 @@ type District struct{
 type Constituency struct{
 	Id int `json:"id"`
 	Name string `json:"name"`	
+	District string `json:"district"`	
 }
 
 type Ward struct{
 	Id int `json:"id"`
 	Name string `json:"name"`
+	Constituency string `json:"constituency"`
 }
 
 type ResidentialArea struct{
@@ -30,5 +32,6 @@ type ResidentialArea struct{
 type TraditionalAuthority struct {
 	Id int `json:"id"`
 	Name string `json:"name"`
+	District string `json:"district"`
 }
 
