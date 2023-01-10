@@ -14,7 +14,7 @@ var district []structs.District
 
 // Gets all the country districts
 func GetDistricts(client *gin.Context) {
-	rows, err := db.Query("SELECT id, name, code, region FROM districts")
+	rows, err := db.Query("select DISTINCT d.id,d.name,d.code,d.region ,(SELECT json_object('tradictional_authorities',json_arrayagg(t.name)) FROM traditional_authorities t WHERE t.district_id=d.id) as tradictional_authorities from districts d")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -22,9 +22,8 @@ func GetDistricts(client *gin.Context) {
 
 	district = nil
 	var getdistrict structs.District
-	for rows.Next() {
-		
-		err = rows.Scan(&getdistrict.Id, &getdistrict.Name, &getdistrict.Code, &getdistrict.Region)
+	for rows.Next() {		
+		err = rows.Scan(&getdistrict.Id, &getdistrict.Name, &getdistrict.Code, &getdistrict.Region,&getdistrict.Traditional_Authorities)
 		if err != nil {
 			panic(err.Error())
 		}

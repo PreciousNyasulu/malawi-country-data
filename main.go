@@ -15,5 +15,8 @@ func main(){
 	//Constituency routes 
 	router.GET("/Constituency",routes.GetConstituencies) 
 	router.GET("/Constituency/Region/:region",routes.GetConstituenciesWithRegion) 
+
+	//Village routes
+	router.GET("/Village",routes.GetVillages)
 	router.Run("localhost:8000")
 }
