@@ -130,5 +130,4 @@ func Search(client *gin.Context) {
 	} else {
 		client.IndentedJSON(http.StatusOK, district)
 	}
-
 }
