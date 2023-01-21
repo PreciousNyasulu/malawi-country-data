@@ -36,3 +36,25 @@ type Village struct {
 	Village_Name string `json:"village_name"`
 	District     string `json:"district"`
 }
+
+type ProblemDetail struct {
+	Type   string `json:"type"`
+	Title  string `json:"title"`
+	Detail string `json:"detail"`
+}
+
+func InternalServerProblemDetail(detail string) ProblemDetail {
+	return ProblemDetail{
+		Type:   "server_error",
+		Title:  "Internal Server Error",
+		Detail: detail,
+	}
+}
+
+func BadRequestProblemDetail(detail string) ProblemDetail {
+	return ProblemDetail{
+		Type:   "bad_request",
+		Title:  "Bad Request",
+		Detail: detail,
+	}
+}
