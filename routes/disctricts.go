@@ -24,10 +24,10 @@ func GetDistricts(client *gin.Context) {
 
 	district = nil
 	var getdistrict structs.District
-	
-	for rows.Next() {	
+
+	for rows.Next() {
 		err = rows.Scan(&newdecoder)
-		json.Unmarshal([]byte(newdecoder),&getdistrict)
+		json.Unmarshal([]byte(newdecoder), &getdistrict)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -68,7 +68,7 @@ func GetDistrictByRegion(client *gin.Context) {
 }
 
 func districtsappend(region string) []structs.District {
-	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d where d.region='"+region+"'")
+	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d where d.region='" + region + "'")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -80,7 +80,7 @@ func districtsappend(region string) []structs.District {
 		if err != nil {
 			panic(err.Error())
 		}
-		json.Unmarshal([]byte(newdecoder),&getdistrict)
+		json.Unmarshal([]byte(newdecoder), &getdistrict)
 
 		district = append(district, getdistrict)
 
@@ -97,7 +97,7 @@ func districtsappend(region string) []structs.District {
 func Search(client *gin.Context) {
 	search := client.Param("search")
 
-	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d where d.name LIKE'"+search+"' or d.code LIKE '"+search+"' ")
+	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d where d.name LIKE'" + search + "' or d.code LIKE '" + search + "' ")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -109,9 +109,9 @@ func Search(client *gin.Context) {
 		err = rows.Scan(&newdecoder)
 		if err != nil {
 			panic(err.Error())
-			
+
 		}
-		json.Unmarshal([]byte(newdecoder),&getdistrict)
+		json.Unmarshal([]byte(newdecoder), &getdistrict)
 		district = append(district, getdistrict)
 		err = rows.Err()
 		if err != nil {
@@ -121,9 +121,8 @@ func Search(client *gin.Context) {
 
 	if len(district) == 0 {
 		client.IndentedJSON(http.StatusBadRequest, gin.H{"Message": "District not found or does not exist"})
-	}else{
+	} else {
 		client.IndentedJSON(http.StatusOK, district)
 	}
 
-	
 }
