@@ -1,11 +1,17 @@
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/preciousnyasulu/malawi-country-data/routes"
 )
 
 func main() {
+	godotenv.Load(".env")
+	//localhost := os.Getenv("localhost")
 	router := gin.Default()
 	//District routes
 	router.GET("/District", routes.GetDistricts)
@@ -18,5 +24,10 @@ func main() {
 
 	//Village routes
 	router.GET("/Village", routes.GetVillages)
-	router.Run("localhost:8000")
+
+	address := os.Getenv("server_address")
+	err := router.Run(address)
+	if err != nil {
+		log.Fatalf("failed to start server at %s got error %v", address, err)
+	}
 }
