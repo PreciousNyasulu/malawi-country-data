@@ -6,13 +6,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	conn "github.com/preciousnyasulu/malawi-country-data/databaseconnection"
 	"github.com/preciousnyasulu/malawi-country-data/structs"
 )
-
-var db = conn.Connect()
-var district []structs.District
-var newdecoder string
 
 // Gets all the country districts
 func GetDistricts(client *gin.Context) {

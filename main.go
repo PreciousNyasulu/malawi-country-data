@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	godotenv.Load(".env")
+	godotenv.Load()
 	//localhost := os.Getenv("localhost")
 	router := gin.Default()
 	//District routes
