@@ -15,7 +15,8 @@ var getconstituency structs.Constituency
 func GetConstituencies(client *gin.Context) {
 	row, err := db.Query("SELECT c.id, c.name, d.name FROM constituencies c, districts d WHERE d.id=c.district_id")
 	if err != nil {
-		panic(err.Error())
+		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
+		return
 	}
 	defer row.Close()
 
@@ -24,13 +25,15 @@ func GetConstituencies(client *gin.Context) {
 
 		err = row.Scan(&getconstituency.Id, &getconstituency.Name, &getconstituency.District)
 		if err != nil {
-			panic(err.Error())
+			client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
+			return
 		}
 		constituency = append(constituency, getconstituency)
 	}
 	err = row.Err()
 	if err != nil {
-		panic(err.Error())
+		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
+		return
 	}
 	client.IndentedJSON(http.StatusOK, constituency)
 }
@@ -39,22 +42,32 @@ func GetConstituencies(client *gin.Context) {
 func GetConstituenciesWithRegion(client *gin.Context) {
 	region := strings.ToLower(client.Param("region"))
 
+	var data []structs.Constituency
+	var err error
 	switch region {
 	case "central":
-		client.IndentedJSON(http.StatusOK, getConstituencyByRegion("central"))
+		data, err = getConstituencyByRegion("central")
 	case "northern":
-		client.IndentedJSON(http.StatusOK, getConstituencyByRegion("northern"))
+		data, err = getConstituencyByRegion("northern")
 	case "southern":
-		client.IndentedJSON(http.StatusOK, getConstituencyByRegion("southern"))
+		data, err = getConstituencyByRegion("southern")
 	default:
-		client.IndentedJSON(http.StatusBadRequest, gin.H{"Message": "Unknown region name."})
+		client.JSON(http.StatusBadRequest, structs.BadRequestProblemDetail("Unknown region name."))
+		return
 	}
+
+	if err != nil {
+		client.JSON(http.StatusInternalServerError, structs.BadRequestProblemDetail(err.Error()))
+		return
+	}
+
+	client.IndentedJSON(http.StatusOK, data)
 }
 
-func getConstituencyByRegion(region string) []structs.Constituency {
+func getConstituencyByRegion(region string) ([]structs.Constituency, error) {
 	rows, err := db.Query("SELECT c.id ,c.name ,d.name FROM constituencies c, districts d WHERE d.id=c.district_id AND d.region='" + region + "'")
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 	defer rows.Close()
 	constituency = nil
@@ -62,15 +75,15 @@ func getConstituencyByRegion(region string) []structs.Constituency {
 	for rows.Next() {
 		err = rows.Scan(&getconstituency.Id, &getconstituency.Name, &getconstituency.District)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 		constituency = append(constituency, getconstituency)
 
 		err = rows.Err()
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 	}
 
-	return constituency
+	return constituency, nil
 }
