@@ -34,6 +34,7 @@ func main() {
 	//Wards Routes
 	router.GET("/Wards", routes.GetWards)
 	router.GET("/Wards/Region/:search", routes.SearchWardWithRegion)
+	router.GET("/Wards/District/:search", routes.SearchWardWithDistrict)
 
 	address := os.Getenv("server_address")
 	err := router.Run(address)
