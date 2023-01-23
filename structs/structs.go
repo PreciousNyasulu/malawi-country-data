@@ -21,8 +21,11 @@ type Ward struct {
 }
 
 type ResidentialArea struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Id                int      `json:"id"`
+	Name              string   `json:"name"`
+	Code              string   `json:"code"`
+	Region            string   `json:"region"`
+	Residential_Areas []string `json:"residential_areas"`
 }
 
 type TraditionalAuthority struct {

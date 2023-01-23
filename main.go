@@ -28,6 +28,9 @@ func main() {
 	//Traditional Authority Routes
 	router.GET("/TraditionalAuthority/:search",routes.SearchTraditionalAuthority)
 
+	// Residential Areas Routes
+	router.GET("/ResidentialArea/:search",routes.SearchResidentialArea)
+
 	address := os.Getenv("server_address")
 	err := router.Run(address)
 	if err != nil {
