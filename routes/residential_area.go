@@ -39,3 +39,5 @@ func SearchResidentialArea(client *gin.Context) {
 	}
 	client.IndentedJSON(http.StatusOK, residential_areas)
 }
+
+
