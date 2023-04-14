@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/preciousnyasulu/malawi-country-data/routes"
+	"malawi-country-data/routes"
 )
 
 func main() {

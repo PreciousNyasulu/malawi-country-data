@@ -6,22 +6,24 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
 func Connect() *sql.DB {
 	password := os.Getenv("password")
-	host := os.Getenv("server")
+	host := os.Getenv("host")
 	user := os.Getenv("user")
-	database := os.Getenv("database")
+	dbname := os.Getenv("database")
+	sslmode := os.Getenv("sslmode")
 
-	// port, err := strconv.Atoi(os.Getenv("port"))
-	// if err != nil {
-	// 	port = 3306
-	// }
+	port, err := strconv.Atoi(os.Getenv("port"))
+	if err != nil {
+		port = 5432
+	}
 
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?allowNativePasswords=true", user, password, host, database))
+	db, err := sql.Open("postgres", fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s",user, password, host, port, dbname,sslmode))
 	if err != nil {
 		log.Fatal("Error creating connection pool: ", err.Error())
 	}

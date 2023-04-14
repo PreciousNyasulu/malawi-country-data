@@ -2,16 +2,31 @@ package routes
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
-
+	"malawi-country-data/structs"
 	"github.com/gin-gonic/gin"
-	"github.com/preciousnyasulu/malawi-country-data/structs"
 )
+
+var query = ""
 
 // Gets all the country districts
 func GetDistricts(client *gin.Context) {
-	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d")
+	query = `SELECT 
+				json_build_object(
+					'id', d.id,
+					'name', d.name,
+					'code', d.code,
+					'region', d.region,
+					'traditional_authorities', (
+						SELECT json_agg(t.name)
+						FROM traditional_authorities t
+						WHERE t.district_id = d.id
+					)
+				) AS district
+			FROM districts d`
+	rows, err := db.Query(query)
 	if err != nil {
 		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
 		return
@@ -72,7 +87,24 @@ func GetDistrictByRegion(client *gin.Context) {
 }
 
 func districtsappend(region string) ([]structs.District, error) {
-	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d where d.region='" + region + "'")
+
+	query = fmt.Sprintf(`
+		SELECT json_build_object(
+			'id', d.id,
+			'name', d.name,
+			'code', d.code,
+			'region', d.region,
+			'traditional_authorities', (
+				SELECT json_agg(t.name)
+				FROM traditional_authorities t
+				WHERE t.district_id = d.id
+			)
+		) AS district
+		FROM districts d
+		WHERE d.region = '%s'
+	`, region)
+
+	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +133,22 @@ func districtsappend(region string) ([]structs.District, error) {
 func Search(client *gin.Context) {
 	search := client.Param("search")
 
-	rows, err := db.Query("select json_object('id',d.id,'name',d.name,'code',d.code,'region', d.region ,'traditional_authorities',(SELECT json_arrayagg(t.name) FROM traditional_authorities t WHERE t.district_id=d.id)) as district from districts d where d.name LIKE'" + search + "' or d.code LIKE '" + search + "' ")
+	query = fmt.Sprintf(`SELECT 
+							json_build_object(
+								'id', d.id,
+								'name', d.name,
+								'code', d.code,
+								'region', d.region,
+								'traditional_authorities', (
+									SELECT json_agg(t.name)
+									FROM traditional_authorities t
+									WHERE t.district_id = d.id
+								)
+							) AS district
+						FROM districts d
+						WHERE d.name ILIKE '%%%s%%' OR d.code ILIKE '%%%s%%'
+						`, search,search)
+	rows, err := db.Query(query)
 	if err != nil {
 		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
 		return
