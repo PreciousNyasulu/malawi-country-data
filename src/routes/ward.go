@@ -4,9 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"malawi-country-data/structs"
-
+	"malawi-country-data/src/structs"
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,24 +30,23 @@ func SearchWardWithRegion(client *gin.Context){
 
 func SearchWardWithDistrict(client *gin.Context){
 	search := client.Param("search")
-	query := fmt.Sprintf(`SELECT 
-	json_build_array(
-	  'id', d.id, 
-	  'district_name', d.name, 
-	  'district_code', d.code, 
-	  'region', d.region, 
-	  'constituency', c.name, 
-	  'wards', (
-		SELECT json_agg(wa.name) 
-		FROM wards wa 
-		WHERE wa.constituency_id=c.id
-	  )
-	) as district 
-  FROM 
-	districts d, constituencies c 
-  WHERE 
-	c.district_id=d.id 
-	AND d.name ILIKE '%s'
+	query = fmt.Sprintf(`select json_build_object(
+		'id', d.id, 
+		'district_name', d.name, 
+		'district_code', d.code, 
+		'region', d.region, 
+		'constituency', c.name, 
+		'wards', (
+		  SELECT json_agg(wa.name) 
+		  FROM wards wa 
+		  WHERE wa.constituency_id=c.id
+		)
+	  ) as district 
+	FROM 
+	  districts d, constituencies c 
+	WHERE 
+	  c.district_id=d.id 
+	  AND d.name ILIKE '%s'
   `,search)
 	SearchWard(client,query)
 }

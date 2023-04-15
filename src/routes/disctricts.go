@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"malawi-country-data/structs"
+	"malawi-country-data/src/structs"
 	"github.com/gin-gonic/gin"
 )
 
