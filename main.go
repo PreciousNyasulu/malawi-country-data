@@ -3,10 +3,9 @@ package main
 import (
 	"log"
 	"os"
-
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/preciousnyasulu/malawi-country-data/routes"
+	"malawi-country-data/src/routes"
 )
 
 func main() {
@@ -24,11 +23,14 @@ func main() {
 
 	//Village routes
 	router.GET("/Village", routes.GetVillages)
+	router.GET("/Village/District/:search", routes.SearchVillageWithDistrict)
 
 	//Traditional Authority Routes
-	router.GET("/TraditionalAuthority/:search", routes.SearchTraditionalAuthority)
+	router.GET("/TraditionalAuthorities", routes.GetTraditionalAuthorities)
+	router.GET("/TraditionalAuthority/:search", routes.SearchTraditionalAuthorities)
 
 	// Residential Areas Routes
+	router.GET("/ResidentialAreas", routes.GetResidentialAreas)
 	router.GET("/ResidentialArea/:search", routes.SearchResidentialArea)
 
 	//Wards Routes

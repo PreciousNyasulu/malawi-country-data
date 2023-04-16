@@ -4,8 +4,8 @@ import (
 	"database/sql"
 
 	"github.com/joho/godotenv"
-	conn "github.com/preciousnyasulu/malawi-country-data/databaseconnection"
-	"github.com/preciousnyasulu/malawi-country-data/structs"
+	conn "malawi-country-data/src/databaseconnection"
+	"malawi-country-data/src/structs"
 )
 
 // just the init

@@ -1,19 +1,26 @@
 package routes
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
+	"malawi-country-data/src/structs"
+
 	"github.com/gin-gonic/gin"
-	"github.com/preciousnyasulu/malawi-country-data/structs"
 )
 
 var constituency []structs.Constituency
 var getconstituency structs.Constituency
 
+
 // Gets all the country constituencies
 func GetConstituencies(client *gin.Context) {
-	row, err := db.Query("SELECT c.id, c.name, d.name FROM constituencies c, districts d WHERE d.id=c.district_id")
+	query = `SELECT c.id, c.name, d.name
+			FROM constituencies c
+			JOIN districts d ON d.id=c.district_id
+	`
+	row, err := db.Query(query)
 	if err != nil {
 		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
 		return
@@ -65,7 +72,12 @@ func GetConstituenciesWithRegion(client *gin.Context) {
 }
 
 func getConstituencyByRegion(region string) ([]structs.Constituency, error) {
-	rows, err := db.Query("SELECT c.id ,c.name ,d.name FROM constituencies c, districts d WHERE d.id=c.district_id AND d.region='" + region + "'")
+	query = fmt.Sprintf(`SELECT c.id, c.name, d.name
+	FROM constituencies c
+	JOIN districts d ON d.id = c.district_id
+	WHERE d.region ILIKE '%s'`, region)
+	
+	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}
