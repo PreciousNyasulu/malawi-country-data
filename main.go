@@ -13,30 +13,30 @@ func main() {
 	//localhost := os.Getenv("localhost")
 	router := gin.Default()
 	//District routes
-	router.GET("/District", routes.GetDistricts)
-	router.GET("/District/Region/:region", routes.GetDistrictByRegion)
-	router.GET("/District/Search/:search", routes.Search)
+	router.GET("/api/District", routes.GetDistricts)
+	router.GET("/api/District/Region/:region", routes.GetDistrictByRegion)
+	router.GET("/api/District/Search/:search", routes.Search)
 
 	//Constituency routes
-	router.GET("/Constituency", routes.GetConstituencies)
-	router.GET("/Constituency/Region/:region", routes.GetConstituenciesWithRegion)
+	router.GET("/api/Constituency", routes.GetConstituencies)
+	router.GET("/api/Constituency/Region/:region", routes.GetConstituenciesWithRegion)
 
 	//Village routes
-	router.GET("/Village", routes.GetVillages)
-	router.GET("/Village/District/:search", routes.SearchVillageWithDistrict)
+	router.GET("/api/Village", routes.GetVillages)
+	router.GET("/api/Village/District/:search", routes.SearchVillageWithDistrict)
 
 	//Traditional Authority Routes
-	router.GET("/TraditionalAuthorities", routes.GetTraditionalAuthorities)
-	router.GET("/TraditionalAuthority/:search", routes.SearchTraditionalAuthorities)
+	router.GET("/api/TraditionalAuthorities", routes.GetTraditionalAuthorities)
+	router.GET("/api/TraditionalAuthority/:search", routes.SearchTraditionalAuthorities)
 
 	// Residential Areas Routes
-	router.GET("/ResidentialAreas", routes.GetResidentialAreas)
-	router.GET("/ResidentialArea/:search", routes.SearchResidentialArea)
+	router.GET("/api/ResidentialAreas", routes.GetResidentialAreas)
+	router.GET("/api/ResidentialArea/:search", routes.SearchResidentialArea)
 
 	//Wards Routes
-	router.GET("/Wards", routes.GetWards)
-	router.GET("/Wards/Region/:search", routes.SearchWardWithRegion)
-	router.GET("/Wards/District/:search", routes.SearchWardWithDistrict)
+	router.GET("/api/Wards", routes.GetWards)
+	router.GET("/api/Wards/Region/:search", routes.SearchWardWithRegion)
+	router.GET("/api/Wards/District/:search", routes.SearchWardWithDistrict)
 
 	address := os.Getenv("server_address")
 	err := router.Run(address)
