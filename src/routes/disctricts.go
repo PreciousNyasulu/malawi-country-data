@@ -3,15 +3,22 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	_ "malawi-country-data/docs"
+	"malawi-country-data/src/structs"
 	"net/http"
 	"strings"
-	"malawi-country-data/src/structs"
+
 	"github.com/gin-gonic/gin"
 )
 
-var query = ""
-
+var query string
 // Gets all the country districts
+// @Description Get user details by their ID
+// @Tags Districts
+// @Accept json
+// @Produce application/json
+// @Success 200 {object} structs.District{}
+// @Router /api/District [get]
 func GetDistricts(client *gin.Context) {
 	query = `SELECT 
 				json_build_object(
@@ -147,7 +154,7 @@ func Search(client *gin.Context) {
 							) AS district
 						FROM districts d
 						WHERE d.name ILIKE '%%%s%%' OR d.code ILIKE '%%%s%%'
-						`, search,search)
+						`, search, search)
 	rows, err := db.Query(query)
 	if err != nil {
 		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))

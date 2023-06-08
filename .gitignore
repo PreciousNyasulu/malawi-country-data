@@ -5,3 +5,4 @@ database/test.sql
 malawi-country-data
 /dist/
 /build/
+fly.toml

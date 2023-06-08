@@ -1,0 +1,39 @@
+basePath: /api
+definitions:
+  structs.District:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      region:
+        type: string
+      traditional_authorities:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: An API for the malawian country details
+  title: Malawi Country Data API
+  version: "1.0"
+paths:
+  /api/District:
+    get:
+      consumes:
+      - application/json
+      description: Get user details by their ID
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      tags:
+      - Districts
+swagger: "2.0"
