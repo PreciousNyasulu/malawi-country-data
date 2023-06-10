@@ -16,7 +16,71 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/District": {
+        "/District/Region/{region}": {
+            "get": {
+                "description": "Gets districts by region(Southern, Central, Northern)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Search district",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "region",
+                        "name": "region",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.District"
+                        }
+                    }
+                }
+            }
+        },
+        "/District/Search/{search}": {
+            "get": {
+                "description": "Searches for country districts based on the search parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Search District",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "district/code",
+                        "name": "search",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.District"
+                        }
+                    }
+                }
+            }
+        },
+        "/Districts": {
             "get": {
                 "description": "Get user details by their ID",
                 "consumes": [
@@ -28,6 +92,7 @@ const docTemplate = `{
                 "tags": [
                     "Districts"
                 ],
+                "summary": "Get all districts",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -68,12 +133,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "1.0.2",
 	Host:             "localhost:8080",
 	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "Malawi Country Data API",
-	Description:      "An API for the malawian country details",
+	Description:      "With this API, developers can easily access and retrieve data related to these administrative divisions, enabling them to build location-based applications, conduct geospatial analysis, or enhance existing systems with accurate and up-to-date information about Malawi's geographic structure.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

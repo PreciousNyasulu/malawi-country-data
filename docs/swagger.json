@@ -1,15 +1,79 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "An API for the malawian country details",
+        "description": "With this API, developers can easily access and retrieve data related to these administrative divisions, enabling them to build location-based applications, conduct geospatial analysis, or enhance existing systems with accurate and up-to-date information about Malawi's geographic structure.",
         "title": "Malawi Country Data API",
         "contact": {},
-        "version": "1.0"
+        "version": "1.0.2"
     },
     "host": "localhost:8080",
     "basePath": "/api",
     "paths": {
-        "/api/District": {
+        "/District/Region/{region}": {
+            "get": {
+                "description": "Gets districts by region(Southern, Central, Northern)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Search district",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "region",
+                        "name": "region",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.District"
+                        }
+                    }
+                }
+            }
+        },
+        "/District/Search/{search}": {
+            "get": {
+                "description": "Searches for country districts based on the search parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Search District",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "district/code",
+                        "name": "search",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.District"
+                        }
+                    }
+                }
+            }
+        },
+        "/Districts": {
             "get": {
                 "description": "Get user details by their ID",
                 "consumes": [
@@ -21,6 +85,7 @@
                 "tags": [
                     "Districts"
                 ],
+                "summary": "Get all districts",
                 "responses": {
                     "200": {
                         "description": "OK",

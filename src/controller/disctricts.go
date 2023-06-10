@@ -12,13 +12,15 @@ import (
 )
 
 var query string
+
 // Gets all the country districts
+// @Summary Get all districts
 // @Description Get user details by their ID
 // @Tags Districts
 // @Accept json
 // @Produce application/json
 // @Success 200 {object} structs.District{}
-// @Router /api/District [get]
+// @Router /Districts [get]
 func GetDistricts(client *gin.Context) {
 	query = `SELECT 
 				json_build_object(
@@ -62,6 +64,14 @@ func GetDistricts(client *gin.Context) {
 }
 
 // Gets districts by country region
+// @Summary 		Search District
+// @Description 	Gets districts by region(Southern, Central, Northern)
+// @Param			region path string true "region"
+// @Tags 			Districts
+// @Accept 			json
+// @Produce			application/json
+// @Success 		200 {object} structs.District{}
+// @Router 			/District/Region/{region} [get]
 func GetDistrictByRegion(client *gin.Context) {
 
 	region := client.Param("region")
@@ -137,9 +147,16 @@ func districtsappend(region string) ([]structs.District, error) {
 }
 
 // Searches for country districts based on the search parameter
+// @Summary Search District/Code
+// @Description Searches for country districts based on the search parameter
+// @Param search path string true "district/code"
+// @Tags Districts
+// @Accept json
+// @Produce application/json
+// @Success 200 {object} structs.District{}
+// @Router /District/Search/{search} [get]
 func Search(client *gin.Context) {
 	search := client.Param("search")
-
 	query = fmt.Sprintf(`SELECT 
 							json_build_object(
 								'id', d.id,
