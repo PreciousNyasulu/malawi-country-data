@@ -18,11 +18,56 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: An API for the malawian country details
+  description: With this API, developers can easily access and retrieve data related
+    to these administrative divisions, enabling them to build location-based applications,
+    conduct geospatial analysis, or enhance existing systems with accurate and up-to-date
+    information about Malawi's geographic structure.
   title: Malawi Country Data API
-  version: "1.0"
+  version: 1.0.2
 paths:
-  /api/District:
+  /District/Region/{region}:
+    get:
+      consumes:
+      - application/json
+      description: Gets districts by region(Southern, Central, Northern)
+      parameters:
+      - description: region
+        in: path
+        name: region
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Search district
+      tags:
+      - Districts
+  /District/Search/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Searches for country districts based on the search parameter
+      parameters:
+      - description: district/code
+        in: path
+        name: search
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Search District
+      tags:
+      - Districts
+  /Districts:
     get:
       consumes:
       - application/json
@@ -34,6 +79,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/structs.District'
+      summary: Get all districts
       tags:
       - Districts
 swagger: "2.0"
