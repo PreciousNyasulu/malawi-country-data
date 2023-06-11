@@ -1,4 +1,4 @@
-package routes
+package controller
 
 import (
 	"encoding/json"
@@ -14,8 +14,8 @@ import (
 var query string
 
 // Gets all the country districts
-// @Summary Get all districts
-// @Description Get user details by their ID
+// @Summary Gets all districts
+// @Description Gets all districts with their related information
 // @Tags Districts
 // @Accept json
 // @Produce application/json
@@ -71,7 +71,7 @@ func GetDistricts(client *gin.Context) {
 // @Accept 			json
 // @Produce			application/json
 // @Success 		200 {object} structs.District{}
-// @Router 			/District/Region/{region} [get]
+// @Router 			/Districts/Region/{region} [get]
 func GetDistrictByRegion(client *gin.Context) {
 
 	region := client.Param("region")
@@ -154,7 +154,7 @@ func districtsappend(region string) ([]structs.District, error) {
 // @Accept json
 // @Produce application/json
 // @Success 200 {object} structs.District{}
-// @Router /District/Search/{search} [get]
+// @Router /Districts/Search/{search} [get]
 func Search(client *gin.Context) {
 	search := client.Param("search")
 	query = fmt.Sprintf(`SELECT 

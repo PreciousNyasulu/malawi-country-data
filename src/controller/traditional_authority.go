@@ -1,4 +1,4 @@
-package routes
+package controller
 
 import (
 	"encoding/json"
@@ -12,7 +12,13 @@ import (
 
 var traditionalauthority []structs.District
 
-
+// @Summary 		Gets Traditional authorities
+// @Description 	Gets all Traditional Authority records
+// @Tags 			Traditional Authority
+// @Accept 			json
+// @Produce			application/json
+// @Success 		200 {object} structs.District{}
+// @Router 			/TraditionalAuthorities [get]
 func GetTraditionalAuthorities(client *gin.Context) {
 	query = `SELECT json_build_object('id', d.id, 'name', d.name, 'code', d.code, 'region', d.region, 'traditional_authorities', (SELECT json_agg(ta.name) FROM traditional_authorities ta WHERE ta.district_id = d.id)) as district 
 	FROM districts d 
@@ -20,6 +26,14 @@ func GetTraditionalAuthorities(client *gin.Context) {
 	getData(client, query)
 }
 
+// @Summary 		Searches Traditional authorities
+// @Description 	Searches though Traditional Authority records
+// @Tags 			Traditional Authority
+// @Param 			search path string true "Traditional Authority"
+// @Accept 			json
+// @Produce			application/json
+// @Success 		200 {object} structs.District{}
+// @Router 			/TraditionalAuthorities/Search/{search} [get]
 func SearchTraditionalAuthorities(client *gin.Context) {
 	search := client.Param("search")
 		query = fmt.Sprintf(`SELECT json_build_object('id', d.id, 'name', d.name, 'code', d.code, 'region', d.region, 'traditional_authorities', (SELECT json_agg(ta.name) FROM traditional_authorities ta WHERE ta.district_id = d.id)) as district 

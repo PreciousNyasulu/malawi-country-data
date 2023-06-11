@@ -24,31 +24,37 @@ func Route() {
 	// Documentation
 	router.GET("/docs/*any",ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	//District routes
-	router.GET("/api/Districts", routes.GetDistricts)
-	router.GET("/api/District/Region/:region", routes.GetDistrictByRegion)
-	router.GET("/api/District/Search/:search", routes.Search)
+	//District controller
+	router.GET("/api/Districts", controller.GetDistricts)
+	router.GET("/api/Districts/Region/:region", controller.GetDistrictByRegion)
+	router.GET("/api/Districts/Search/:search", controller.Search)
 
-	//Constituency routes
-	router.GET("/api/Constituencies", routes.GetConstituencies)
-	router.GET("/api/Constituency/Region/:region", routes.GetConstituenciesWithRegion)
+	//Constituency controller
+	router.GET("/api/Constituencies", controller.GetConstituencies)
+	router.GET("/api/Constituencies/Region/Northern", controller.GetNorthernConstituencies)
+	router.GET("/api/Constituencies/Region/Southern", controller.GetSouthernConstituencies)
+	router.GET("/api/Constituencies/Region/Central", controller.GetCentralConstituencies)
+	// router.GET("/api/Constituencies/Region/:region", controller.GetConstituenciesWithRegion)
 
-	//Village routes
-	router.GET("/api/Villages", routes.GetVillages)
-	router.GET("/api/Village/District/:search", routes.SearchVillageWithDistrict)
+	//Village controller
+	router.GET("/api/Villages", controller.GetVillages)
+	router.GET("/api/Villages/Search/:search", controller.GetVillages)
+	router.GET("/api/Villages/District/:search", controller.SearchVillageWithDistrict)
  
-	//Traditional Authority Routes
-	router.GET("/api/TraditionalAuthorities", routes.GetTraditionalAuthorities)
-	router.GET("/api/TraditionalAuthority/:search", routes.SearchTraditionalAuthorities)
+	//Traditional Authority controller
+	router.GET("/api/TraditionalAuthorities", controller.GetTraditionalAuthorities)
+	router.GET("/api/TraditionalAuthorities/Search/:search", controller.SearchTraditionalAuthorities)
 
-	// Residential Areas Routes
-	router.GET("/api/ResidentialAreas", routes.GetResidentialAreas)
-	router.GET("/api/ResidentialArea/:search", routes.SearchResidentialArea)
+	// Residential Areas controller
+	router.GET("/api/ResidentialAreas", controller.GetResidentialAreas)
+	router.GET("/api/ResidentialAreas/Search/:search", controller.SearchResidentialArea)
 
-	//Wards Routes
-	router.GET("/api/Wards", routes.GetWards)
-	router.GET("/api/Wards/Region/:search", routes.SearchWardWithRegion)
-	router.GET("/api/Wards/District/:search", routes.SearchWardWithDistrict)
+	//Wards controller
+	router.GET("/api/Wards", controller.GetWards)
+	router.GET("/api/Wards/Region/Northern", controller.NorthernRegionWards)
+	router.GET("/api/Wards/Region/Central", controller.CentralRegionWards)
+	router.GET("/api/Wards/Region/Southern", controller.SouthernRegionWards)
+	router.GET("/api/Wards/District/:search", controller.SearchWardWithDistrict)
 
 	// Healthcheck endpoint
 	router.GET("/HealthCheck", func(c *gin.Context) {
