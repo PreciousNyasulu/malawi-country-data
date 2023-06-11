@@ -9,7 +9,122 @@
     "host": "localhost:8080",
     "basePath": "/api",
     "paths": {
-        "/District/Region/{region}": {
+        "/Constituencies": {
+            "get": {
+                "description": "Gets all the constituencies",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Gets all the country constituencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Constituency"
+                        }
+                    }
+                }
+            }
+        },
+        "/Constituencies/Region/Central": {
+            "get": {
+                "description": "Gets all the constituencies in the Central region",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Gets all Central region constituencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Constituency"
+                        }
+                    }
+                }
+            }
+        },
+        "/Constituencies/Region/Northern": {
+            "get": {
+                "description": "Gets all the constituencies in the northern region",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Gets all northern region constituencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Constituency"
+                        }
+                    }
+                }
+            }
+        },
+        "/Constituencies/Region/Southern": {
+            "get": {
+                "description": "Gets all the constituencies in the southern region",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Constituencies"
+                ],
+                "summary": "Gets all southern region constituencies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Constituency"
+                        }
+                    }
+                }
+            }
+        },
+        "/Districts": {
+            "get": {
+                "description": "Gets all districts with their related information",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Gets all districts",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.District"
+                        }
+                    }
+                }
+            }
+        },
+        "/Districts/Region/{region}": {
             "get": {
                 "description": "Gets districts by region(Southern, Central, Northern)",
                 "consumes": [
@@ -21,7 +136,7 @@
                 "tags": [
                     "Districts"
                 ],
-                "summary": "Search district",
+                "summary": "Search District",
                 "parameters": [
                     {
                         "type": "string",
@@ -41,7 +156,7 @@
                 }
             }
         },
-        "/District/Search/{search}": {
+        "/Districts/Search/{search}": {
             "get": {
                 "description": "Searches for country districts based on the search parameter",
                 "consumes": [
@@ -53,7 +168,7 @@
                 "tags": [
                     "Districts"
                 ],
-                "summary": "Search District",
+                "summary": "Search District/Code",
                 "parameters": [
                     {
                         "type": "string",
@@ -73,9 +188,9 @@
                 }
             }
         },
-        "/Districts": {
+        "/ResidentialAreas": {
             "get": {
-                "description": "Get user details by their ID",
+                "description": "Gets all Residential Area records",
                 "consumes": [
                     "application/json"
                 ],
@@ -83,9 +198,64 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Districts"
+                    "Residential Area"
                 ],
-                "summary": "Get all districts",
+                "summary": "Gets all Residential Areas",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ResidentialArea"
+                        }
+                    }
+                }
+            }
+        },
+        "/ResidentialAreas/Search/{search}": {
+            "get": {
+                "description": "Searches though Residential Area records",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Residential Area"
+                ],
+                "summary": "Searches for Residential Areas",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Residential Area",
+                        "name": "search",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.ResidentialArea"
+                        }
+                    }
+                }
+            }
+        },
+        "/TraditionalAuthorities": {
+            "get": {
+                "description": "Gets all Traditional Authority records",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Traditional Authority"
+                ],
+                "summary": "Gets Traditional authorities",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -95,9 +265,266 @@
                     }
                 }
             }
+        },
+        "/TraditionalAuthorities/Search/{search}": {
+            "get": {
+                "description": "Searches though Traditional Authority records",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Traditional Authority"
+                ],
+                "summary": "Searches Traditional authorities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Traditional Authority",
+                        "name": "search",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.District"
+                        }
+                    }
+                }
+            }
+        },
+        "/Villages": {
+            "get": {
+                "description": "Gets all the villages",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "villages"
+                ],
+                "summary": "Gets all the country villages",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Village"
+                        }
+                    }
+                }
+            }
+        },
+        "/Villages/District/{search}": {
+            "get": {
+                "description": "Gets all the villages in district",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "villages"
+                ],
+                "summary": "Gets all the country villages in a district",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "District",
+                        "name": "district",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Village"
+                        }
+                    }
+                }
+            }
+        },
+        "/Villages/Search/{search}": {
+            "get": {
+                "description": "Gets all the villages in district",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "villages"
+                ],
+                "summary": "Searches village name",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "village",
+                        "name": "village",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Village"
+                        }
+                    }
+                }
+            }
+        },
+        "/Wards": {
+            "get": {
+                "description": "Gets all Ward records",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Gets all Wards",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Ward"
+                        }
+                    }
+                }
+            }
+        },
+        "/Wards/District/{search}": {
+            "get": {
+                "description": "Gets all wards by district name",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Searches wards by district",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "District name",
+                        "name": "search",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Ward"
+                        }
+                    }
+                }
+            }
+        },
+        "/Wards/Region/Central": {
+            "get": {
+                "description": "Gets all central region wards",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Gets all wards in the Central region",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Ward"
+                        }
+                    }
+                }
+            }
+        },
+        "/Wards/Region/Northern": {
+            "get": {
+                "description": "Gets all northern region wards",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Gets all wards in the northern region",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Ward"
+                        }
+                    }
+                }
+            }
+        },
+        "/Wards/Region/Southern": {
+            "get": {
+                "description": "Gets all southern region wards",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wards"
+                ],
+                "summary": "Gets all wards in the southern region",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/structs.Ward"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "structs.Constituency": {
+            "type": "object",
+            "properties": {
+                "district": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "structs.District": {
             "type": "object",
             "properties": {
@@ -114,6 +541,69 @@
                     "type": "string"
                 },
                 "traditional_authorities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "structs.ResidentialArea": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "residential_areas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "structs.Village": {
+            "type": "object",
+            "properties": {
+                "district": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "village_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "structs.Ward": {
+            "type": "object",
+            "properties": {
+                "constituency": {
+                    "type": "string"
+                },
+                "district_code": {
+                    "type": "string"
+                },
+                "district_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "wards": {
                     "type": "array",
                     "items": {
                         "type": "string"
