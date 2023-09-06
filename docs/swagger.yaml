@@ -26,12 +26,15 @@ definitions:
     type: object
   structs.ResidentialArea:
     properties:
-      code:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
+      district:
+        properties:
+          code:
+            type: string
+          id:
+            type: integer
+          name:
+            type: string
+        type: object
       region:
         type: string
       residential_areas:

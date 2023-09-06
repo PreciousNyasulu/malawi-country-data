@@ -20,7 +20,7 @@ var village []structs.Village
 // @Success 		200 {object} structs.Village{}
 // @Router 			/Villages [get]
 func GetVillages(client *gin.Context) {
-	query = `SELECT v.id, v.village_name, d.name
+	query = `SELECT json_build_object('id',v.id, 'name',v.village_name, 'district',json_build_object('id', d.id, 'name', d.name, 'code', d.code ),'region', d.region)
 				FROM villages v
 				JOIN districts d ON d.id = v.district_id`
 	_search(client, query)
@@ -37,8 +37,8 @@ func GetVillages(client *gin.Context) {
 // @Router 			/Villages/District/{search} [get]
 func SearchVillageWithDistrict(client *gin.Context) {
 	search := client.Param("search")
-	query = fmt.Sprintf(`SELECT v.id, v.village_name, d.name 
-	FROM villages v 
+	query = fmt.Sprintf(`SELECT json_build_object('id',v.id, 'name',v.village_name, 'district',json_build_object('id', d.id, 'name', d.name, 'code', d.code ),'region', d.region)
+	FROM villages v
 	JOIN districts d ON d.id = v.district_id 
 	WHERE d.name ilike '%%%s%%'`, search)
 	_search(client, query)
@@ -55,9 +55,9 @@ func SearchVillageWithDistrict(client *gin.Context) {
 // @Router 			/Villages/Search/{search} [get]
 func VillageSearch(client *gin.Context){
 	search := client.Param("search")
-	query = fmt.Sprintf( `SELECT v.id, v.village_name, d.name
-				FROM villages v
-				JOIN districts d ON d.id = v.district_id
+	query = fmt.Sprintf( `SELECT json_build_object('id',v.id, 'name',v.village_name, 'district',json_build_object('id', d.id, 'name', d.name, 'code', d.code ),'region', d.region)
+	FROM villages v
+	JOIN districts d ON d.id = v.district_id
 				WHERE v.name ilike '%%%s%%'`,search)
 	_search(client, query)
 }
@@ -71,7 +71,7 @@ func _search(client *gin.Context, query string) {
 	defer rows.Close()
 	var getvillage structs.Village
 	for rows.Next() {
-		err = rows.Scan(&getvillage.Id, &getvillage.Village_Name, &getvillage.District)
+		err = rows.Scan(&getvillage.Id , &getvillage.Name, &getvillage.Region, &getvillage.District)
 		if err != nil {
 			client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
 			return

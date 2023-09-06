@@ -558,14 +558,19 @@ const docTemplate = `{
         "structs.ResidentialArea": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
+                "district": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "region": {
                     "type": "string"

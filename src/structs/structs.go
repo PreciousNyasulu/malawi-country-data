@@ -15,18 +15,22 @@ type Constituency struct {
 }
 
 type Ward struct {
-	Id           int      `json:"id"`
-	District     string   `json:"district_name"`
-	Code         string   `json:"district_code"`
+	District	 struct{
+		Id                int      `json:"id"`
+		Name              string   `json:"name"`
+		Code              string   `json:"code"`
+	}	`json:"district"`	
 	Region       string   `json:"region"`
 	Constituency string   `json:"constituency"`
 	Wards        []string `json:"wards"`
 }
 
 type ResidentialArea struct {
-	Id                int      `json:"id"`
-	Name              string   `json:"name"`
-	Code              string   `json:"code"`
+	District struct{
+		Id                int      `json:"id"`
+		Name              string   `json:"name"`
+		Code              string   `json:"code"`
+	} `json:"district"`
 	Region            string   `json:"region"`
 	Residential_Areas []string `json:"residential_areas"`
 }
@@ -39,8 +43,13 @@ type TraditionalAuthority struct {
 
 type Village struct {
 	Id           int    `json:"id"`
-	Village_Name string `json:"village_name"`
-	District     string `json:"district"`
+	Name string `json:"name"`
+	Region string `json:"region"`
+	District    struct {
+		Id                int      `json:"id"`
+		Name              string   `json:"name"`
+		Code              string   `json:"code"`
+	} `json:"district"`
 }
 
 type ProblemDetail struct {

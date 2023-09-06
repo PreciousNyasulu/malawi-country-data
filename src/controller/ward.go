@@ -20,7 +20,7 @@ var wards []structs.Ward
 // @Router 			/Wards [get]
 func GetWards(client *gin.Context) {
 	query := `SELECT 
-				json_build_object('id', d.id, 'district_name', d.name, 'district_code', d.code, 'region', d.region, 'constituency', c.name, 'wards', (SELECT json_agg(wa.name) FROM wards wa WHERE wa.constituency_id = c.id))
+				json_build_object( 'district', json_build_object('id', d.id, 'name', d.name, 'code', d.code), 'region', d.region, 'constituency', c.name, 'wards', (SELECT json_agg(wa.name) FROM wards wa WHERE wa.constituency_id = c.id))
 				AS district
 				FROM districts d
 				INNER JOIN constituencies c ON c.district_id = d.id`
@@ -61,7 +61,7 @@ func CentralRegionWards(client *gin.Context) {
 }
 
 func SearchWardWithRegion(Region string, client *gin.Context) {
-	query := fmt.Sprintf(`SELECT json_build_object('id', d.id, 'district_name', d.name, 'district_code', d.code, 'region', d.region, 'constituency', c.name, 'wards', (SELECT json_agg(wa.name) FROM wards wa WHERE wa.constituency_id = c.id)) as district 
+	query := fmt.Sprintf(`SELECT json_build_object('district', json_build_object('id', d.id, 'name', d.name, 'code', d.code), 'region', d.region, 'constituency', c.name, 'wards', (SELECT json_agg(wa.name) FROM wards wa WHERE wa.constituency_id = c.id)) as district 
 							FROM districts d 
 							JOIN constituencies c ON c.district_id = d.id
 							WHERE d.region ILIKE '%s'`, Region)
