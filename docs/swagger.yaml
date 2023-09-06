@@ -1,0 +1,408 @@
+basePath: /api
+definitions:
+  structs.Constituency:
+    properties:
+      district:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  structs.District:
+    properties:
+      code:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      region:
+        type: string
+      traditional_authorities:
+        items:
+          type: string
+        type: array
+    type: object
+  structs.ResidentialArea:
+    properties:
+      district:
+        properties:
+          code:
+            type: string
+          id:
+            type: integer
+          name:
+            type: string
+        type: object
+      region:
+        type: string
+      residential_areas:
+        items:
+          type: string
+        type: array
+    type: object
+  structs.Village:
+    properties:
+      district:
+        type: string
+      id:
+        type: integer
+      village_name:
+        type: string
+    type: object
+  structs.Ward:
+    properties:
+      constituency:
+        type: string
+      district_code:
+        type: string
+      district_name:
+        type: string
+      id:
+        type: integer
+      region:
+        type: string
+      wards:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: With this API, developers can easily access and retrieve data related
+    to these administrative divisions, enabling them to build location-based applications,
+    conduct geospatial analysis, or enhance existing systems with accurate and up-to-date
+    information about Malawi's geographic structure.
+  title: Malawi Country Data API
+  version: 1.0.2
+paths:
+  /Constituencies:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the constituencies
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Constituency'
+      summary: Gets all the country constituencies
+      tags:
+      - Constituencies
+  /Constituencies/Region/Central:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the constituencies in the Central region
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Constituency'
+      summary: Gets all Central region constituencies
+      tags:
+      - Constituencies
+  /Constituencies/Region/Northern:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the constituencies in the northern region
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Constituency'
+      summary: Gets all northern region constituencies
+      tags:
+      - Constituencies
+  /Constituencies/Region/Southern:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the constituencies in the southern region
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Constituency'
+      summary: Gets all southern region constituencies
+      tags:
+      - Constituencies
+  /Districts:
+    get:
+      consumes:
+      - application/json
+      description: Gets all districts with their related information
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Gets all districts
+      tags:
+      - Districts
+  /Districts/Region/{region}:
+    get:
+      consumes:
+      - application/json
+      description: Gets districts by region(Southern, Central, Northern)
+      parameters:
+      - description: region
+        in: path
+        name: region
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Search District
+      tags:
+      - Districts
+  /Districts/Search/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Searches for country districts based on the search parameter
+      parameters:
+      - description: district/code
+        in: path
+        name: search
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Search District/Code
+      tags:
+      - Districts
+  /ResidentialAreas:
+    get:
+      consumes:
+      - application/json
+      description: Gets all Residential Area records
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.ResidentialArea'
+      summary: Gets all Residential Areas
+      tags:
+      - Residential Area
+  /ResidentialAreas/Search/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Searches though Residential Area records
+      parameters:
+      - description: Residential Area
+        in: path
+        name: search
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.ResidentialArea'
+      summary: Searches for Residential Areas
+      tags:
+      - Residential Area
+  /TraditionalAuthorities:
+    get:
+      consumes:
+      - application/json
+      description: Gets all Traditional Authority records
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Gets Traditional authorities
+      tags:
+      - Traditional Authority
+  /TraditionalAuthorities/Search/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Searches though Traditional Authority records
+      parameters:
+      - description: Traditional Authority
+        in: path
+        name: search
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.District'
+      summary: Searches Traditional authorities
+      tags:
+      - Traditional Authority
+  /Villages:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the villages
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Village'
+      summary: Gets all the country villages
+      tags:
+      - villages
+  /Villages/District/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the villages in district
+      parameters:
+      - description: District
+        in: path
+        name: district
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Village'
+      summary: Gets all the country villages in a district
+      tags:
+      - villages
+  /Villages/Search/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Gets all the villages in district
+      parameters:
+      - description: village
+        in: path
+        name: village
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Village'
+      summary: Searches village name
+      tags:
+      - villages
+  /Wards:
+    get:
+      consumes:
+      - application/json
+      description: Gets all Ward records
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Ward'
+      summary: Gets all Wards
+      tags:
+      - Wards
+  /Wards/District/{search}:
+    get:
+      consumes:
+      - application/json
+      description: Gets all wards by district name
+      parameters:
+      - description: District name
+        in: path
+        name: search
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Ward'
+      summary: Searches wards by district
+      tags:
+      - Wards
+  /Wards/Region/Central:
+    get:
+      consumes:
+      - application/json
+      description: Gets all central region wards
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Ward'
+      summary: Gets all wards in the Central region
+      tags:
+      - Wards
+  /Wards/Region/Northern:
+    get:
+      consumes:
+      - application/json
+      description: Gets all northern region wards
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Ward'
+      summary: Gets all wards in the northern region
+      tags:
+      - Wards
+  /Wards/Region/Southern:
+    get:
+      consumes:
+      - application/json
+      description: Gets all southern region wards
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/structs.Ward'
+      summary: Gets all wards in the southern region
+      tags:
+      - Wards
+swagger: "2.0"

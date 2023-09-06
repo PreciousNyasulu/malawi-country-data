@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: country_data
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/data.sql:/docker-entrypoint-initdb.d/data.sql  # Mount the SQL dump into the container's init directory
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:

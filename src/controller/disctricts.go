@@ -1,17 +1,26 @@
-package routes
+package controller
 
 import (
 	"encoding/json"
 	"fmt"
+	_ "malawi-country-data/docs"
+	"malawi-country-data/src/structs"
 	"net/http"
 	"strings"
-	"malawi-country-data/src/structs"
+
 	"github.com/gin-gonic/gin"
 )
 
-var query = ""
+var query string
 
 // Gets all the country districts
+// @Summary Gets all districts
+// @Description Gets all districts with their related information
+// @Tags Districts
+// @Accept json
+// @Produce application/json
+// @Success 200 {object} structs.District{}
+// @Router /Districts [get]
 func GetDistricts(client *gin.Context) {
 	query = `SELECT 
 				json_build_object(
@@ -55,6 +64,14 @@ func GetDistricts(client *gin.Context) {
 }
 
 // Gets districts by country region
+// @Summary 		Search District
+// @Description 	Gets districts by region(Southern, Central, Northern)
+// @Param			region path string true "region"
+// @Tags 			Districts
+// @Accept 			json
+// @Produce			application/json
+// @Success 		200 {object} structs.District{}
+// @Router 			/Districts/Region/{region} [get]
 func GetDistrictByRegion(client *gin.Context) {
 
 	region := client.Param("region")
@@ -130,9 +147,16 @@ func districtsappend(region string) ([]structs.District, error) {
 }
 
 // Searches for country districts based on the search parameter
+// @Summary Search District/Code
+// @Description Searches for country districts based on the search parameter
+// @Param search path string true "district/code"
+// @Tags Districts
+// @Accept json
+// @Produce application/json
+// @Success 200 {object} structs.District{}
+// @Router /Districts/Search/{search} [get]
 func Search(client *gin.Context) {
 	search := client.Param("search")
-
 	query = fmt.Sprintf(`SELECT 
 							json_build_object(
 								'id', d.id,
@@ -147,7 +171,7 @@ func Search(client *gin.Context) {
 							) AS district
 						FROM districts d
 						WHERE d.name ILIKE '%%%s%%' OR d.code ILIKE '%%%s%%'
-						`, search,search)
+						`, search, search)
 	rows, err := db.Query(query)
 	if err != nil {
 		client.JSON(http.StatusInternalServerError, structs.InternalServerProblemDetail(err.Error()))
