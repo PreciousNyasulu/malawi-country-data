@@ -45,22 +45,34 @@ definitions:
   structs.Village:
     properties:
       district:
-        type: string
+        properties:
+          code:
+            type: string
+          id:
+            type: integer
+          name:
+            type: string
+        type: object
       id:
         type: integer
-      village_name:
+      name:
+        type: string
+      region:
         type: string
     type: object
   structs.Ward:
     properties:
       constituency:
         type: string
-      district_code:
-        type: string
-      district_name:
-        type: string
-      id:
-        type: integer
+      district:
+        properties:
+          code:
+            type: string
+          id:
+            type: integer
+          name:
+            type: string
+        type: object
       region:
         type: string
       wards:
@@ -68,7 +80,7 @@ definitions:
           type: string
         type: array
     type: object
-host: localhost:8080
+host: malawi-country-data.fly.dev
 info:
   contact: {}
   description: With this API, developers can easily access and retrieve data related

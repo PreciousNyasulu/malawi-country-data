@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0.2"
     },
-    "host": "localhost:8080",
+    "host": "malawi-country-data.fly.dev",
     "basePath": "/api",
     "paths": {
         "/Constituencies": {
@@ -580,12 +580,26 @@
             "type": "object",
             "properties": {
                 "district": {
-                    "type": "string"
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "id": {
                     "type": "integer"
                 },
-                "village_name": {
+                "name": {
+                    "type": "string"
+                },
+                "region": {
                     "type": "string"
                 }
             }
@@ -596,14 +610,19 @@
                 "constituency": {
                     "type": "string"
                 },
-                "district_code": {
-                    "type": "string"
-                },
-                "district_name": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
+                "district": {
+                    "type": "object",
+                    "properties": {
+                        "code": {
+                            "type": "string"
+                        },
+                        "id": {
+                            "type": "integer"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "region": {
                     "type": "string"
